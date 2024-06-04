@@ -1,16 +1,20 @@
+import ejs from 'ejs';
 import express from 'express';
-import {connection, errorHandler, getSheet} from "./controllers/sheetsController.js";
-import {getStudent} from "./controllers/studentController.js";
+import {socket, socketRedirect} from './controllers/socketController.js';
 
 const app = express();
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 app.use(express.json());
+app.use(express.static('public'));
 
-app.use('/sheets', connection);
-app.get('/sheets/:sheetName', getSheet);
 
-app.get('/student/:moodleLogin', getStudent);
+app.get('/', socketRedirect);
+app.get('/socket', socket);
 
-app.use(errorHandler);
+app.use((err, req, res, next) => {
+	console.error(err);
+});
 
 
 export default app;
