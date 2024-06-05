@@ -1,6 +1,10 @@
-import ejs from 'ejs';
 import express from 'express';
-import {socket, socketRedirect} from './controllers/socketController.js';
+import {serveIndexView, socketHandler, redirect} from './controllers/socketController.js';
+import { Server } from 'socket.io';
+
+import env from 'dotenv';
+env.config();
+const port = process.env.PORT || 3000;
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -8,13 +12,11 @@ app.set('views', 'views');
 app.use(express.json());
 app.use(express.static('public'));
 
+app.get('/', redirect);
+app.get('/socket', serveIndexView);
 
-app.get('/', socketRedirect);
-app.get('/socket', socket);
+const server = app.listen(port, () => console.log('Listening on port ' + port))
 
-app.use((err, req, res, next) => {
-	console.error(err);
-});
+export const io = new Server(server);
 
-
-export default app;
+io.on('connection', socketHandler);

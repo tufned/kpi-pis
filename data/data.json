@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Eddard Stark",
+    "ipn": 1234567890,
+    "balance": 32146
+  },
+  {
+    "name": "Jon Snow",
+    "ipn": 5362354236,
+    "balance": 1234
+  },
+  {
+    "name": "Daenerys Targaryen",
+    "ipn": 6498265021,
+    "balance": 64353
+  }
+]
